@@ -18,9 +18,14 @@ class Grid:
         self.worker = Worker()
         self.load_level(1)
 
-    def draw(self, screen):
-        for rowIndex, row in enumerate(self.grid):
-            for colIndex, char in enumerate(row):
+    def draw(self, screen: pygame.Surface) -> None:
+        """Draw the level on the screen."""
+        screen_width, screen_height = screen.get_size()
+        level_width, level_height = self.level_size()
+        cell_size = min(screen_width // level_width, screen_height // level_height)
+
+        for y, row in enumerate(self.grid):
+            for x, char in enumerate(row):
                 colors = {
                     BOX: (255, 0, 0),
                     BOX_ON_STORAGE: (0, 255, 0),
@@ -31,11 +36,15 @@ class Grid:
                     WALL: (255, 255, 255)
                 }
 
-                pygame.draw.rect(
-                    screen,
-                    colors[char],
-                    (colIndex * 10, rowIndex * 10, 10, 10)
-                )
+                pygame.draw.rect(screen, colors[char], (x * cell_size, y * cell_size, cell_size, cell_size))
+
+    def level_size(self) -> tuple[int, int]:
+        """
+        Returns the size of the level.
+
+        (width, height)
+        """
+        return len(max(self.grid, key=len)), len(self.grid)
 
     def load_level(self, level: int) -> None:
         """Load a level from a file."""
