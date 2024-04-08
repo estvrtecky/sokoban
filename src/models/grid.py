@@ -13,7 +13,6 @@ WALL = "#"
 class Grid:
     def __init__(self) -> None:
         self.grid = []
-        self.load_level(1)
 
     def draw(self, screen: pygame.Surface) -> None:
         """Draw the level on the screen."""
@@ -49,6 +48,10 @@ class Grid:
         (width, height)
         """
         return len(max(self.grid, key=len)), len(self.grid)
+
+    def level_solved(self) -> bool:
+        """Check if the level is solved."""
+        return all(BOX not in row for row in self.grid)
 
     def load_level(self, level: int) -> None:
         """Load a level from a file."""
