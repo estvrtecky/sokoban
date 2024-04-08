@@ -14,15 +14,9 @@ WALL = "#"
 
 class Grid:
     def __init__(self) -> None:
-        self.grid = [
-            ["#"] * 5,
-            ["#", "W", " ", " ", "#"],
-            ["#", " ", "B", " ", "#"],
-            ["#", " ", " ", " ", "#"],
-            ["#"] * 5
-        ]
-
+        self.grid = []
         self.worker = Worker()
+        self.load_level(1)
 
     def draw(self, screen):
         for rowIndex, row in enumerate(self.grid):
@@ -42,6 +36,11 @@ class Grid:
                     colors[char],
                     (colIndex * 10, rowIndex * 10, 10, 10)
                 )
+
+    def load_level(self, level: int) -> None:
+        """Load a level from a file."""
+        with open(f"data/levels/level_{level}.txt", "r") as f:
+            self.grid = [list(row.strip()) for row in f.readlines()]
 
     def move_worker(self, x, y):
         new_x = self.worker.x + x
