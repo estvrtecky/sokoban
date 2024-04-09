@@ -1,6 +1,7 @@
 import pygame
 
 from .models import Grid
+from .config import Config
 
 
 class Game:
@@ -9,8 +10,12 @@ class Game:
         pygame.init()
         pygame.font.init()
 
-        self.running = True
+        # Game objects
         self.grid = Grid()
+        self.config = Config("config.ini")
+
+        self.levels_path = self.config.get("paths", "levels_path")
+        self.running = True
         self.levels = 2
         self.current_level = 1
 
@@ -31,13 +36,13 @@ class Game:
                     self.grid.move_worker(1, 0)
                 # Restart
                 if event.key == pygame.K_r:
-                    self.grid.load_level(self.current_level)
+                    self.grid.load_level(self.levels_path, self.current_level)
 
     def run(self):
         screen = pygame.display.set_mode((800, 600))
         clock = pygame.time.Clock()
         pygame.display.set_caption("Sokoban")
-        self.grid.load_level(self.current_level)
+        self.grid.load_level(self.levels_path, self.current_level)
 
         while self.running:
             self.handle_events()
@@ -45,7 +50,7 @@ class Game:
             self.grid.draw(screen)
             if self.grid.level_solved() and self.current_level < self.levels:
                     self.current_level += 1
-                    self.grid.load_level(self.current_level)
+                    self.grid.load_level(self.levels_path, self.current_level)
 
             pygame.display.update()
 

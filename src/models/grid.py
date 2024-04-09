@@ -1,3 +1,4 @@
+import os
 import pygame
 
 
@@ -52,9 +53,14 @@ class Grid:
         """Check if the level is solved."""
         return all(BOX not in row for row in self.grid)
 
-    def load_level(self, level: int) -> None:
+    def load_level(self, path: str, level: int) -> None:
         """Load a level from a file."""
-        with open(f"data/levels/level_{level}.txt", "r") as f:
+        level_path = f"{path}/level_{level}.txt"
+
+        if not os.path.exists(level_path):
+            raise FileNotFoundError(f"Level file not found: {level_path}")
+
+        with open(level_path, "r") as f:
             self.grid = [list(row.strip()) for row in f.readlines()]
 
     def move_worker(self, x: int, y: int) -> None:
