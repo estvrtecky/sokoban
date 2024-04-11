@@ -1,15 +1,8 @@
 import os
 import pygame
 
+from .characters import BOX, BOX_ON_STORAGE, FLOOR, PLAYER, PLAYER_ON_STORAGE, STORAGE, WALL
 
-# Constants
-BOX = "$"
-BOX_ON_STORAGE = "*"
-FLOOR = " "
-PLAYER = "@"
-PLAYER_ON_STORAGE = "+"
-STORAGE = "."
-WALL = "#"
 
 class Level:
     def __init__(self) -> None:
