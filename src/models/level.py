@@ -11,7 +11,7 @@ PLAYER_ON_STORAGE = "+"
 STORAGE = "."
 WALL = "#"
 
-class Grid:
+class Level:
     def __init__(self) -> None:
         self.grid = []
         self.colors = {
@@ -27,7 +27,7 @@ class Grid:
     def draw(self, screen: pygame.Surface) -> None:
         """Draw the level on the screen."""
         screen_width, screen_height = screen.get_size()
-        level_width, level_height = self.level_size()
+        level_width, level_height = self.size()
         cell_size = min(screen_width // level_width, screen_height // level_height)
 
         for y, row in enumerate(self.grid):
@@ -41,19 +41,7 @@ class Grid:
                 if char in (PLAYER, PLAYER_ON_STORAGE):
                     return x, y
 
-    def level_size(self) -> tuple[int, int]:
-        """
-        Returns the size of the level.
-
-        (width, height)
-        """
-        return len(max(self.grid, key=len)), len(self.grid)
-
-    def level_solved(self) -> bool:
-        """Check if the level is solved."""
-        return all(BOX not in row for row in self.grid)
-
-    def load_level(self, path: str, level: int) -> None:
+    def load(self, path: str, level: int) -> None:
         """Load a level from a file."""
         level_path = f"{path}/level_{level}.txt"
 
@@ -124,3 +112,11 @@ class Grid:
                     self.grid[player_y][player_x] = STORAGE
                     self.grid[player_y + y][player_x + x] = PLAYER_ON_STORAGE
                     self.grid[player_y + y * 2][player_x + x * 2] = BOX_ON_STORAGE
+
+    def size(self) -> tuple[int, int]:
+        """Returns the size of the level. (width, height)"""
+        return len(max(self.grid, key=len)), len(self.grid)
+
+    def solved(self) -> bool:
+        """Check if the level is solved."""
+        return all(BOX not in row for row in self.grid)
