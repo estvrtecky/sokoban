@@ -1,5 +1,4 @@
 import os
-import pygame
 
 from .characters import BOX, BOX_ON_STORAGE, FLOOR, PLAYER, PLAYER_ON_STORAGE, STORAGE, WALL
 
@@ -7,25 +6,6 @@ from .characters import BOX, BOX_ON_STORAGE, FLOOR, PLAYER, PLAYER_ON_STORAGE, S
 class Level:
     def __init__(self) -> None:
         self.grid = []
-        self.colors = {
-            BOX: (255, 0, 0),
-            BOX_ON_STORAGE: (0, 255, 0),
-            FLOOR: (0, 0, 0),
-            PLAYER: (255, 0, 255),
-            PLAYER_ON_STORAGE: (255, 0, 255),
-            STORAGE: (0, 0, 255),
-            WALL: (255, 255, 255)
-        }
-
-    def draw(self, screen: pygame.Surface) -> None:
-        """Draw the level on the screen."""
-        screen_width, screen_height = screen.get_size()
-        level_width, level_height = self.size()
-        cell_size = min(screen_width // level_width, screen_height // level_height)
-
-        for y, row in enumerate(self.grid):
-            for x, char in enumerate(row):
-                pygame.draw.rect(screen, self.colors[char], (x * cell_size, y * cell_size, cell_size, cell_size))
 
     def find_player(self) -> tuple[int, int]:
         """Find the player's position in the level."""

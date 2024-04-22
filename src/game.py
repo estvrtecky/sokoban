@@ -1,6 +1,7 @@
 import pygame
 
 from .config import Config
+from .graphics import Graphics
 from .models import Level
 
 
@@ -13,6 +14,7 @@ class Game:
         # Game objects
         self.level = Level()
         self.config = Config("config.ini")
+        self.graphics = Graphics()
 
         self.levels_path = self.config.get("paths", "levels_path")
         self.running = True
@@ -47,7 +49,7 @@ class Game:
         while self.running:
             self.handle_events()
 
-            self.level.draw(screen)
+            self.graphics.draw(screen, self.level)
             if self.level.solved() and self.current_level < self.levels:
                 self.current_level += 1
                 self.level.load(self.levels_path, self.current_level)
