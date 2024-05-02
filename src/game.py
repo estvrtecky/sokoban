@@ -11,6 +11,8 @@ class Game:
         pygame.init()
         pygame.font.init()
 
+        self.screen = pygame.display.set_mode((800, 600))
+
         # Game objects
         self.level = Level()
         self.config = Config("config.ini")
@@ -41,7 +43,6 @@ class Game:
                     self.level.load(self.levels_path, self.current_level)
 
     def run(self):
-        screen = pygame.display.set_mode((800, 600))
         clock = pygame.time.Clock()
         pygame.display.set_caption("Sokoban")
         self.level.load(self.levels_path, self.current_level)
@@ -49,7 +50,7 @@ class Game:
         while self.running:
             self.handle_events()
 
-            self.graphics.draw(screen, self.level)
+            self.graphics.draw(self.screen, self.level)
             if self.level.solved() and self.current_level < self.levels:
                 self.current_level += 1
                 self.level.load(self.levels_path, self.current_level)

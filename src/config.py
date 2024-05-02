@@ -16,6 +16,10 @@ class Config:
         """Get an option value for a given section as an integer."""
         return self.config.getint(section.upper(), option)
 
+    def items(self, section: str) -> list[tuple[str, str]]:
+        """Return a list of (name, value) tuples for each option in a section."""
+        return self.config.items(section.upper())
+
     def set(self, section: str, option: str, value: Union[str, int]) -> None:
         """
         Set an option value for a given section.
