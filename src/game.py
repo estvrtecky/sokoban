@@ -2,7 +2,7 @@ import pygame
 
 from .config import Config
 from .graphics import Graphics
-from .models import Level
+from .models import Level, Solver
 
 
 class Game:
@@ -17,11 +17,13 @@ class Game:
         self.level = Level()
         self.config = Config("config.ini")
         self.graphics = Graphics()
+        self.solver = Solver()
 
         self.levels_path = self.config.get("paths", "levels_path")
         self.running = True
         self.levels = 2
         self.current_level = 1
+        self.solution = None
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -41,6 +43,9 @@ class Game:
                 # Restart
                 if event.key == pygame.K_r:
                     self.level.load(self.levels_path, self.current_level)
+                # Solve
+                if event.key == pygame.K_s:
+                    self.solution = self.solver.solve(self.level)
 
     def run(self):
         clock = pygame.time.Clock()
@@ -49,6 +54,8 @@ class Game:
 
         while self.running:
             self.handle_events()
+
+            print(self.solution)
 
             self.graphics.draw(self.screen, self.level)
             if self.level.solved() and self.current_level < self.levels:
