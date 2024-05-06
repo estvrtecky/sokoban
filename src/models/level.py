@@ -7,6 +7,12 @@ class Level:
     def __init__(self) -> None:
         self.grid = []
 
+    def copy(self) -> "Level":
+        """Return a copy of the level."""
+        level = Level()
+        level.grid = [row.copy() for row in self.grid]
+        return level
+
     def find_player(self) -> tuple[int, int]:
         """Find the player's position in the level."""
         for y, row in enumerate(self.grid):
